@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'indi.css' %}" type="text/css">
+
+    <title>Document</title>
+</head>
+<body>
+    {% comment %} {% for usr in user %} {% endcomment %}
+
+    <div class="header">
+        <p onclick="document.getElementById('edit').style.display=(document.getElementById('edit').style.display == 'none')?'block' :'none'">Edit Username</p>
+        <p onclick="document.getElementById('editpwd').style.display=(document.getElementById('editpwd').style.display == 'none')?'block' :'none'">Edit Password</p>
+        <a href="logout"><p>Logout</p></a>
+        
+    </div>
+
+    
+    <div class="container">
+
+
+        <h1>Hello!!</h1>
+        <h1>Welcome Back {{usr.name}}</h1>
+        {% if messages %}
+    {% comment %} <ul class="messages"> {% endcomment %}
+        {% for message in messages %}
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+        {% endfor %}
+    {% comment %} </ul> {% endcomment %}
+    {% endif %}
+        <form action="/editname/{{usr.id}}" method="post" style="display:none;" id="edit">
+            {% csrf_token %}
+            {{nameform}}
+            {% comment %} <input type="text" name="name" id="" placeholder="Enter the new username"> {% endcomment %}
+            <input type="submit" value="Edit">
+        </form>
+        
+
+        <form action="/editpass/{{usr.id}}" method="post" style="display:none;" id="editpwd">
+            {% csrf_token %}
+            {% comment %} <input type="password" name="password" id="" placeholder="Enter the new password"> {% endcomment %}
+            {{passform}}
+            <input type="submit" value="Edit">
+        </form>
+
+        {% csrf_token %}
+        
+    </div>
+
+    
+</body>
+</html>
